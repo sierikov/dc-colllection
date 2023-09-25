@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  gitness:
+    ports:
+      - 3000:3000
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/tmp/gitness:/data"
+    image: harness/gitness
