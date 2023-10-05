@@ -5,6 +5,7 @@ services:
     image: bitnami/zookeeper:3.8
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+
   kafka:
     image: bitnami/kafka:3.3
     environment:
@@ -15,13 +16,15 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
+    ports: 
+      - 9092:9092
 
   kafka_ui:
     image: provectuslabs/kafka-ui:latest
     ports:
-      - 8080:8080
+      - 8089:8080
     environment:
       - KAFKA_CLUSTERS_0_NAME=DC-Kafka
-      ## Uncomment following to enable schema
+      ## Uncomment following to enable external schema
       #- KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://example-shema.org:28081
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
