@@ -9,44 +9,59 @@ services:
       - "ZOOKEEPER_CLIENT_PORT=2181"
     ports:
       - 2181:2181
+    networks:
+      - kafka-cf-cluster-network
 
   kafka:
     image: confluentinc/cp-kafka:7.2.1
     depends_on:
       - zookeeper
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 20s
     environment:
-      - KAFKA_ADVERTISED_LISTENERS=INTERNAL://127.0.0.1:29092,DOCKER://kafka:9093,EXTERNAL://127.0.0.1:9092
-      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=false
-      - KAFKA_INTER_BROKER_LISTENER_NAME=DOCKER
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,DOCKER:PLAINTEXT,EXTERNAL:PLAINTEXT
-      - KAFKA_LISTENERS=INTERNAL://0.0.0.0:29092,DOCKER://0.0.0.0:9093,EXTERNAL://0.0.0.0:9092
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
-      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - "KAFKA_ADVERTISED_LISTENERS=INTERNAL://127.0.0.1:29092,DOCKER://kafka:9093,EXTERNAL://127.0.0.1:9092"
+      - "KAFKA_AUTO_CREATE_TOPICS_ENABLE=false"
+      - "KAFKA_INTER_BROKER_LISTENER_NAME=DOCKER"
+      - "KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,DOCKER:PLAINTEXT,EXTERNAL:PLAINTEXT"
+      - "KAFKA_LISTENERS=INTERNAL://0.0.0.0:29092,DOCKER://0.0.0.0:9093,EXTERNAL://0.0.0.0:9092"
+      - "KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1"
+      - "KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1"
+      - "KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1"
+      - "KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181"
     ports:
       - 9092:9092
-    extra_hosts:
-      - host.docker.internal:host-gateway
+    networks:
+      - kafka-cf-cluster-network
 
   kafka-schema-registry:
     image: confluentinc/cp-schema-registry:7.2.1
     depends_on:
       - kafka
+    restart: on-failure
     environment:
-      - SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=kafka:9093
-      - SCHEMA_REGISTRY_HOST_NAME=kafka-schema-registry
-      - SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081
+      - "SCHEMA_REGISTRY_HOST_NAME=kafka-schema-registry"
+      - "SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=kafka:9093"
+      - "SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081"
     ports:
       - 8081:8081
-
+    networks:
+      - kafka-cf-cluster-network
+    
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     restart: on-failure
     environment:
-      - SERVER_PORT=8083
-      - KAFKA_CLUSTERS_0_NAME=kafka
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9093
+      - KAFKA_CLUSTERS_0_NAME=kafka
       - KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://kafka-schema-registry:8081
+      - SERVER_PORT=8083
     ports:
       - 8089:8083
+    networks:
+      - kafka-cf-cluster-network
+
+networks:
+  kafka-cf-cluster-network:
+    driver: bridge
