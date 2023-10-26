@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:15.3
+    command: ["postgres", "-c", "log_statement=all"]
+    restart: always
+    volumes:
+      - "./sql:/docker-entrypoint-initdb.d"
+    environment:
+      - "POSTGRES_USER=docker"
+      - "POSTGRES_PASSWORD=docker"
+    ports:
+      - 5432:5432
+
+  dbgate:
+    image: dbgate/dbgate
+    restart: always
+    volumes:
+      - dbgate-data:/root/.dbgate
+    environment:
+      CONNECTIONS: con1
+
+      LABEL_con1: Postgres
+      SERVER_con1: db
+      USER_con1: docker
+      PASSWORD_con1: docker
+      PORT_con1: 5432
+      ENGINE_con1: postgres@dbgate-plugin-postgres
+      
+    ports:
+      - 80:3000
+
+volumes:
+  dbgate-data:
+    driver: local
