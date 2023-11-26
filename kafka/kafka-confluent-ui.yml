@@ -9,13 +9,20 @@ services:
       - "ZOOKEEPER_CLIENT_PORT=2181"
     ports:
       - 2181:2181
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z zookeeper 2181"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - kafka-cf-cluster-network
 
   kafka:
     image: confluentinc/cp-kafka:7.2.1
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     deploy:
       restart_policy:
         condition: on-failure
@@ -32,13 +39,20 @@ services:
       - "KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181"
     ports:
       - 9092:9092
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z kafka 9093"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
     networks:
       - kafka-cf-cluster-network
 
   kafka-schema-registry:
     image: confluentinc/cp-schema-registry:7.2.1
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     restart: on-failure
     environment:
       - "SCHEMA_REGISTRY_HOST_NAME=kafka-schema-registry"
@@ -51,6 +65,9 @@ services:
     
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
+    depends_on:
+      - kafka
+      - kafka-schema-registry
     restart: on-failure
     environment:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9093
