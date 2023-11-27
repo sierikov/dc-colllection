@@ -6,15 +6,15 @@ services:
     image: confluentinc/cp-zookeeper:7.2.1
     restart: on-failure
     environment:
-      - "ZOOKEEPER_CLIENT_PORT=2181"
+      ZOOKEEPER_CLIENT_PORT: 2181
+      KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=*"
     ports:
-      - 2181:2181
+      - "2181:2181"
     healthcheck:
-      test: ["CMD-SHELL", "nc -z zookeeper 2181"]
-      interval: 30s
+      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
+      interval: 10s
       timeout: 10s
-      retries: 3
-      start_period: 10s
+      retries: 2
     networks:
       - kafka-cf-cluster-network
 
@@ -23,28 +23,27 @@ services:
     depends_on:
       zookeeper:
         condition: service_healthy
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 20s
-    environment:
-      - "KAFKA_ADVERTISED_LISTENERS=INTERNAL://127.0.0.1:29092,DOCKER://kafka:9093,EXTERNAL://127.0.0.1:9092"
-      - "KAFKA_AUTO_CREATE_TOPICS_ENABLE=false"
-      - "KAFKA_INTER_BROKER_LISTENER_NAME=DOCKER"
-      - "KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,DOCKER:PLAINTEXT,EXTERNAL:PLAINTEXT"
-      - "KAFKA_LISTENERS=INTERNAL://0.0.0.0:29092,DOCKER://0.0.0.0:9093,EXTERNAL://0.0.0.0:9092"
-      - "KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1"
-      - "KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1"
-      - "KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1"
-      - "KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181"
-    ports:
-      - 9092:9092
     healthcheck:
-      test: ["CMD-SHELL", "nc -z kafka 9093"]
+      test: ["CMD-SHELL", "kafka-consumer-groups --bootstrap-server localhost:9092 --list > /dev/null"]
       interval: 10s
-      timeout: 10s
+      timeout: 30s
       retries: 3
-      start_period: 15s
+      start_period: 30s
+    restart: on-failure
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://127.0.0.1:29092,DOCKER://kafka:9093,EXTERNAL://127.0.0.1:9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,DOCKER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,DOCKER://0.0.0.0:9093,EXTERNAL://0.0.0.0:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - "9092:9092"
+
+    
     networks:
       - kafka-cf-cluster-network
 
@@ -55,14 +54,19 @@ services:
         condition: service_healthy
     restart: on-failure
     environment:
-      - "SCHEMA_REGISTRY_HOST_NAME=kafka-schema-registry"
-      - "SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=kafka:9093"
-      - "SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081"
+      SCHEMA_REGISTRY_HOST_NAME: kafka-schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:9093
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
     ports:
-      - 8081:8081
+      - "8081:8081"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/subjects"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - kafka-cf-cluster-network
-    
+
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     depends_on:
@@ -70,12 +74,12 @@ services:
       - kafka-schema-registry
     restart: on-failure
     environment:
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9093
-      - KAFKA_CLUSTERS_0_NAME=kafka
-      - KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://kafka-schema-registry:8081
-      - SERVER_PORT=8083
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9093
+      KAFKA_CLUSTERS_0_NAME: kafka
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://kafka-schema-registry:8081
+      SERVER_PORT: 8083
     ports:
-      - 8089:8083
+      - "8089:8083"
     networks:
       - kafka-cf-cluster-network
 
