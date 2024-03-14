@@ -13,11 +13,17 @@ services:
     volumes:
       - "./sql:/docker-entrypoint-initdb.d"
       - postgres-data:/var/lib/postgresql/data
-  adminer:
-    image: adminer
+  pgadmin:
+    image: dpage/pgadmin4
     restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com 
+      PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - 8085:8080
+      - "8085:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin       
 
 volumes:
+  pgadmin-data:
   postgres-data:
