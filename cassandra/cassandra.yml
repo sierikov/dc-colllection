@@ -1,13 +1,15 @@
 version: "3"
 services:
-    cassandra:
-        container_name: cas
-        ports:
-            - 9042:9042
-        tty: true
-        stdin_open: true
-        deploy:
-            resources:
-                limits:
-                    memory: 3500m
-        image: cassandra:3
+  cassandra:
+    image: cassandra:3
+    deploy:
+      resources:
+        limits:
+          memory: 3500m
+    ports:
+      - 9042:9042
+    tty: true
+    stdin_open: true
+    container_name: cas
+    volumes:
+      - "~/dc-data/cassandra:/var/lib/cassandra"

@@ -1,10 +1,10 @@
-version: '3'
+version: "3"
 
 services:
   db:
     image: postgres:15.3
     command: ["postgres", "-c", "log_statement=all"]
-    restart: always    
+    restart: always
     environment:
       - "POSTGRES_USER=docker"
       - "POSTGRES_PASSWORD=docker"
@@ -12,19 +12,15 @@ services:
       - "5432:5432"
     volumes:
       - "./sql:/docker-entrypoint-initdb.d"
-      - ./local-data/postgres-data:/var/lib/postgresql/data
+      - "~/dc-data/postgres:/var/lib/postgresql/data"
   pgadmin:
     image: dpage/pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com 
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
-    user: '$UID:$GID'
+    user: "$UID:$GID"
     ports:
       - "8085:80"
     volumes:
-      - ./local-data/pgadmin-data/:/var/lib/pgadmin  # Must sudo chmod 5050 ./local-data/
-
-volumes:
-  pgadmin-data:
-  postgres-data:
+      - "~/dc-data/pgadmin:/var/lib/pgadmin" # Must sudo chmod 5050 ./local-data/

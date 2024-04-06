@@ -7,6 +7,7 @@ services:
     restart: always
     volumes:
       - "./sql:/docker-entrypoint-initdb.d"
+      - "~/dc-data/postgres:/var/lib/postgresql/data"
     environment:
       - "POSTGRES_USER=docker"
       - "POSTGRES_PASSWORD=docker"
@@ -17,20 +18,14 @@ services:
     image: dbgate/dbgate
     restart: always
     volumes:
-      - dbgate-data:/root/.dbgate
+      - "~/dc-data/dbgate:/root/.dbgate"
     environment:
       CONNECTIONS: con1
-
       LABEL_con1: Postgres
       SERVER_con1: db
       USER_con1: docker
       PASSWORD_con1: docker
       PORT_con1: 5432
       ENGINE_con1: postgres@dbgate-plugin-postgres
-      
     ports:
       - 80:3000
-
-volumes:
-  dbgate-data:
-    driver: local
