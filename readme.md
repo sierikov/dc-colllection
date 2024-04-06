@@ -39,6 +39,7 @@ Kafka has following variations:
 
 - [`kafka-confluent-ui.yml`](kafka/kafka-confluent-ui.yml) - a kafka setup with a single broker and a single zookeeper instance and [kafka-ui]. It also includes a health check for
 each service.
+- [`kafka-confluent-rd.yml`](kafka/kafka-confluent-rd.yml) - the same as `kafka-confluent-ui` but with [redpanda] ui instead of [kafka-ui].
 - [`kafka-mini.yml`](kafka/kafka-mini.yml) - a minimalistic kafka setup with a single broker and a single zookeeper instance.
 - [`kakfa-ui.yml`](kafka/kafka-ui.yml) - the same as `kafka-mini` and a connected [kafka-ui] instance.
 
@@ -66,6 +67,7 @@ This folder contains custom docker images that I use for development:
 enable docker builds inside the container.
 
 [kafka-ui]: https://docs.kafka-ui.provectus.io/overview/getting-started
+[redpanda]: https://vectorized.io/
 [adminer]: https://www.adminer.org/
 [redis-commander]: https://github.com/joeferner/redis-commander
 [redis-stack]: https://redis.io/docs/about/about-stack/
