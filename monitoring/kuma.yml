@@ -7,4 +7,4 @@ services:
     ports:
       - 3001:3001
     volumes:
-      - "~/dc-data/postgres/kuma:/app/data"
+      - "~/dc-data/kuma:/app/data"
