@@ -10,3 +10,9 @@ services:
     volumes:
       - "~/dc-data/proxy/data:/data"
       - "~/dc-data/proxy/letsencrypt:/etc/letsencrypt"
+    network:
+      - proxy
+
+networks:
+  proxy-network:
+    driver: bridge

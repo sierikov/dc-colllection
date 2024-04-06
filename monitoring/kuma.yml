@@ -8,3 +8,9 @@ services:
       - 3001:3001
     volumes:
       - "~/dc-data/kuma:/app/data"
+    network:
+      - proxy-network
+
+networks:
+  proxy-network:
+    driver: bridge
