@@ -5,6 +5,7 @@ services:
     image: grafana/grafana:latest
     hostname: rpi-grafana
     restart: unless-stopped
+    user: "472"
     networks:
       - internal
     ports:
@@ -64,6 +65,7 @@ services:
     image: prom/prometheus:latest
     hostname: rpi-prometheus
     restart: unless-stopped
+    user: "nobody"
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
