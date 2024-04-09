@@ -5,7 +5,7 @@ services:
     image: grafana/grafana:latest
     hostname: rpi-grafana
     restart: unless-stopped
-    user: "472"
+    user: root
     networks:
       - internal
     ports:
@@ -13,7 +13,6 @@ services:
     env_file:
       - ./grafana/.env
     volumes:
-      # Needs backup
       - "~/dc-data/grafana/data:/var/lib/grafana"
       - "./grafana/provisioning:/etc/grafana/provisioning"
     depends_on:
@@ -65,7 +64,7 @@ services:
     image: prom/prometheus:latest
     hostname: rpi-prometheus
     restart: unless-stopped
-    user: "nobody"
+    user: root
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
