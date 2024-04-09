@@ -353,12 +353,16 @@
                 "value": null
               },
               {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 49.9998
+                "color": "blue",
+                "value": 55
               },
               {
-                "color": "rgba(245, 54, 54, 0.9)",
+                "color": "orange",
                 "value": 60
+              },
+              {
+                "color": "red",
+                "value": 65
               }
             ]
           },
@@ -2503,8 +2507,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2604,8 +2607,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2704,8 +2706,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2803,8 +2804,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2875,8 +2875,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3041,6 +3040,6 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
