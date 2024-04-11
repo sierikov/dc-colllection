@@ -8,4 +8,4 @@ services:
       - 3001:3001
     volumes:
       - "~/dc-data/kuma:/app/data"
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
