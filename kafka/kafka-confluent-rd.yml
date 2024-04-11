@@ -84,7 +84,7 @@ services:
             enabled: true
             urls: ["http://kafka-schema-registry:8081"]
     ports:
-      - "8080:8080"
+      - "8084:8080"
     depends_on:
       kafka-schema-registry:
         condition: service_healthy
