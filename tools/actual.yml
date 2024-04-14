@@ -1,0 +1,10 @@
+version: "3"
+services:
+  actual-server:
+    image: actualbudget/actual-server:latest
+    container_name: actual
+    restart: unless-stopped
+    ports:
+      - 3004:5006
+    volumes:
+      - "~/dc-data/actual/:/data"
