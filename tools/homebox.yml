@@ -1,0 +1,12 @@
+version: "3"
+services:
+  homebox:
+    image: ghcr.io/hay-kot/homebox:v0.10.3
+    container_name: homebox
+    restart: unless-stopped
+    ports:
+      - 3005:7745
+    environment:
+      - TZ=Europe/Berlin
+    volumes: 
+      - "~/dc-data/actual/:/data"
