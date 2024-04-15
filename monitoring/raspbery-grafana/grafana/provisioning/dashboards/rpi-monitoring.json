@@ -43,7 +43,10 @@
       "type": "row"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "prometheus",
+        "uid": "t4f0shgRk"
+      },
       "description": "Busy state of all CPU cores together",
       "fieldConfig": {
         "defaults": {
@@ -64,19 +67,23 @@
           "max": 100,
           "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "rgba(50, 172, 45, 0.97)",
                 "value": null
               },
               {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 85
+                "color": "blue",
+                "value": 50
               },
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": 95
+                "color": "#EAB839",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 92
               }
             ]
           },
@@ -116,7 +123,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{mode!=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total[$__rate_interval])))) * 100",
+          "expr": "((sum by(instance) (irate(node_cpu_seconds_total{mode!=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total[$__rate_interval])))) / 4) * 400\n",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
@@ -154,19 +161,23 @@
           "max": 100,
           "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "rgba(50, 172, 45, 0.97)",
                 "value": null
               },
               {
+                "color": "blue",
+                "value": 68
+              },
+              {
                 "color": "rgba(237, 129, 40, 0.89)",
-                "value": 85
+                "value": 80
               },
               {
                 "color": "rgba(245, 54, 54, 0.9)",
-                "value": 95
+                "value": 92
               }
             ]
           },
@@ -206,7 +217,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg(node_load5) /  count(count(node_cpu_seconds_total) by (cpu)) * 100",
+          "expr": "((avg(node_load5) / count(count(node_cpu_seconds_total) by (cpu))) / 4) * 400",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -352,7 +363,7 @@
       "id": 72,
       "maxDataPoints": 100,
       "options": {
-        "colorMode": "value",
+        "colorMode": "none",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -969,19 +980,23 @@
           "max": 100,
           "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "rgba(50, 172, 45, 0.97)",
                 "value": null
               },
               {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 10
+                "color": "blue",
+                "value": 40
+              },
+              {
+                "color": "#EAB839",
+                "value": 60
               },
               {
                 "color": "rgba(245, 54, 54, 0.9)",
-                "value": 25
+                "value": 80
               }
             ]
           },
@@ -2868,7 +2883,7 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -2899,6 +2914,6 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
