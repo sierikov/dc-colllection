@@ -1,0 +1,6 @@
+name: hat-sh
+services:
+  image: shdv/hat.sh
+  hat.sh:
+    ports:
+      - 3006:80
