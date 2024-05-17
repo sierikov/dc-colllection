@@ -3,7 +3,7 @@ version: "3.8"
 services:
   komga:
     image: gotson/komga:1.11.1
-    container_name: komga:
+    container_name: komga
     volumes:
       - "~/dc-data/komga/config:/config"
       - "~/dc-data/komga/data:/data"
@@ -16,10 +16,11 @@ services:
   suwayomi:
     image: ghcr.io/suwayomi/tachidesk:v1.0.0
     container_name: suwayomi
+    user: "1000:1000"
     environment:
       PUID: 1000
       PGID: 1000
-      TZ: Europe/Berlin
+      TZ: "Europe/Berlin"
       DOWNLOAD_AS_CBZ: "true"
       AUTO_DOWNLOAD_CHAPTERS: "true"
       AUTO_DOWNLOAD_EXCLUDE_UNREAD: "false"
@@ -34,5 +35,4 @@ services:
     volumes:
       - "~/dc-data/suwayomi/config:/home/suwayomi/.local/share/Tachidesk"
       - "~/dc-data/komga/data:/home/suwayomi/.local/share/Tachidesk/downloads/"
-    user: "1000:1000"
     restart: unless-stopped
