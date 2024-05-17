@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  komga:
+    image: gotson/komga:1.11.1
+    container_name: komga:
+    volumes:
+      - "~/dc-data/komga/config:/config"
+      - "~/dc-data/komga/data:/data"
+      - "/etc/timezone:/etc/timezone:ro"
+    ports:
+      - 3011:25600
+    user: "1000:1000"
+    restart: unless-stopped
+
+  suwayomi:
+    image: ghcr.io/suwayomi/tachidesk:v1.0.0
+    container_name: suwayomi
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Berlin
+      DOWNLOAD_AS_CBZ: "true"
+      AUTO_DOWNLOAD_CHAPTERS: "true"
+      AUTO_DOWNLOAD_EXCLUDE_UNREAD: "false"
+      AUTO_DOWNLOAD_AHEAD_LIMIT: "0"
+      UPDATE_EXCLUDE_UNREAD: "false"
+      UPDATE_EXCLUDE_STARTED: "false"
+      UPDATE_EXCLUDE_COMPLETED: "false"
+      UPDATE_INTERVAL: "6"
+      EXTENSION_REPOS: '["https://github.com/keiyoushi/extensions/tree/repo/"]'
+    ports:
+      - "3012:4567"
+    volumes:
+      - "~/dc-data/suwayomi/config:/home/suwayomi/.local/share/Tachidesk"
+      - "~/dc-data/komga/data:/home/suwayomi/.local/share/Tachidesk/downloads/"
+    user: "1000:1000"
+    restart: unless-stopped
