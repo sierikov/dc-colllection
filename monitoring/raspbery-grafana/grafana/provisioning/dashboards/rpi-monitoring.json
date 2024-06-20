@@ -2859,11 +2859,14 @@
         {
           "id": "organize",
           "options": {
-            "excludeByName": {},
+            "excludeByName": {
+              "container_label_com_docker_compose_project_working_dir": true
+            },
+            "includeByName": {},
             "indexByName": {},
             "renameByName": {
               "Value": "Running",
-              "container_label_com_docker_compose_project": "Label",
+              "container_label_com_docker_compose_project": "DC Folder",
               "container_label_com_docker_compose_project_working_dir": "Working dir",
               "container_label_com_docker_compose_service": "Service",
               "image": "Registry Image",
@@ -2914,6 +2917,6 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
