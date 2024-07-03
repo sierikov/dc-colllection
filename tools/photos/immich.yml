@@ -62,6 +62,27 @@ services:
       - immich-pgdata:/var/lib/postgresql/data
     restart: always
 
+  # to restore -> https://immich.app/docs/administration/backup-and-restore
+  backup:
+    container_name: immich-db-backup
+    image: prodrigestivill/postgres-backup-local:14
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_CLUSTER: 'TRUE'
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      SCHEDULE: "@midnight"
+      POSTGRES_EXTRA_OPTS: '--clean --if-exists'
+      BACKUP_DIR: /db_dumps
+    volumes:
+      - ${DB_BACKUP_LOCATION}:/db_dumps
+    depends_on:
+      - database
+
 volumes:
   immich-pgdata:
   immich-model-cache:
