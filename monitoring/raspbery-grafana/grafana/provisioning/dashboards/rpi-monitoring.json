@@ -1155,10 +1155,11 @@
         "type": "prometheus",
         "uid": "t4f0shgRk"
       },
+      "description": "Shows CPU usage over time.",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -1169,7 +1170,7 @@
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 10,
-            "gradientMode": "none",
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -1201,30 +1202,22 @@
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "super-light-blue",
+                "value": 200
+              },
+              {
+                "color": "light-orange",
+                "value": 300
+              },
+              {
+                "color": "light-red",
+                "value": 370
               }
             ]
           },
           "unit": "percent"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "{id=\"/\",instance=\"cadvisor:8080\",job=\"prometheus\"}"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#BA43A9",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 6,
@@ -1253,25 +1246,9 @@
             "uid": "t4f0shgRk"
           },
           "editorMode": "code",
-          "exemplar": true,
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[$__rate_interval])) * 100)",
-          "format": "time_series",
-          "hide": true,
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "CPU",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "t4f0shgRk"
-          },
-          "editorMode": "code",
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{mode!=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total[$__rate_interval])))) * 100",
+          "expr": "sum by (instance) (rate(node_cpu_seconds_total{mode!=\"idle\"}[$__rate_interval])) / count(node_cpu_seconds_total{mode=\"idle\"}) by (instance) * 400",
           "hide": false,
-          "legendFormat": "__auto",
+          "legendFormat": "CPU usage",
           "range": true,
           "refId": "A"
         }
@@ -1284,6 +1261,7 @@
         "type": "prometheus",
         "uid": "t4f0shgRk"
       },
+      "description": "CPU Temperature over time. \nGreen - normal, \nBlue - Light cooling, \nOrange - moderate cooling, \nRed - full blast.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1299,7 +1277,7 @@
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 10,
-            "gradientMode": "hue",
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -1341,8 +1319,12 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "super-light-green",
                 "value": null
+              },
+              {
+                "color": "green",
+                "value": 45
               },
               {
                 "color": "super-light-blue",
@@ -2886,7 +2868,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
@@ -2917,6 +2899,6 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 6,
+  "version": 7,
   "weekStart": ""
 }
