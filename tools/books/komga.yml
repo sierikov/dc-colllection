@@ -16,6 +16,7 @@ services:
   suwayomi:
     image: ghcr.io/suwayomi/tachidesk:v1.0.0
     container_name: suwayomi
+    mem_limit: 128m
     user: "1000:1000"
     environment:
       PUID: 1000
