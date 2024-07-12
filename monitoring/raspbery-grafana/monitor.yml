@@ -64,6 +64,7 @@ services:
   prometheus:
     container_name: monitoring-prometheus
     image: prom/prometheus:latest
+    mem_limit: 512m
     hostname: rpi-prometheus
     restart: unless-stopped
     user: root

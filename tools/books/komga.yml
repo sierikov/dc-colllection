@@ -3,6 +3,7 @@ version: "3.8"
 services:
   komga:
     image: gotson/komga:1.11.1
+    mem_limit: 350m
     container_name: komga
     volumes:
       - "~/dc-data/komga/config:/config"
@@ -16,7 +17,7 @@ services:
   suwayomi:
     image: ghcr.io/suwayomi/tachidesk:v1.0.0
     container_name: suwayomi
-    mem_limit: 128m
+    mem_limit: 256m
     user: "1000:1000"
     environment:
       PUID: 1000
