@@ -1,0 +1,59 @@
+services:
+  semaphore-db:
+    container_name: semaphore-db
+    restart: unless-stopped
+    mem_limit: 30mb
+    image: postgres:15.3
+    hostname: postgres
+    env_file:
+      - .env
+    environment:
+     POSTGRES_USER: ${SEMPH_DB_USERNAME}
+     POSTGRES_PASSWORD: ${SEMPH_DB_PASS}
+     POSTGRES_DB: semaphore
+
+  semaphore-db-backup:
+    container_name: semaphore-db-backup
+    image: prodrigestivill/postgres-backup-local:14
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_CLUSTER: 'TRUE'
+      POSTGRES_USER: ${SEMPH_DB_USERNAME}
+      POSTGRES_PASSWORD: ${SEMPH_DB_PASS}
+      POSTGRES_DB: semaphore
+      SCHEDULE: "@midnight"
+      POSTGRES_EXTRA_OPTS: '--clean --if-exists'
+      BACKUP_DIR: /db_dumps
+    volumes:
+      - ${SEMPH_DATA_LOCATION}:/db_dumps
+    depends_on:
+      - database
+
+  semaphore:
+    container_name: semaphore
+    mem_limit: 80mb
+    restart: unless-stopped
+    env:
+      - .env
+    ports:
+      - 3001:3000
+    image: semaphoreui/semaphore:latest
+    environment:
+      SEMAPHORE_DB_USER: ${SEMPH_DB_USERNAME}
+      SEMAPHORE_DB_PASS: ${SEMPH_DB_PASS}
+      SEMAPHORE_DB_HOST: semaphore-db 
+      SEMAPHORE_DB_PORT: 5432 
+      SEMAPHORE_DB_DIALECT: postgres
+      SEMAPHORE_DB: semaphore
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMPH_ADMIN_PASS}
+      SEMAPHORE_ADMIN_NAME: ${SEMPH_ADMIN_NAME}
+      SEMAPHORE_ADMIN_EMAIL: ${SEMPH_ADMIN_EMAIL}
+      SEMAPHORE_ADMIN: ${SEMPH_ADMIN}
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMPH_ENC_KEY}
+      TZ: UTC
+    depends_on:
+      - semaphore-db
