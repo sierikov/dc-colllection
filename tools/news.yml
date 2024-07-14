@@ -3,6 +3,7 @@ version: '3'
 services:
   fusion:
     image: rook1e404/fusion
+    container_name: fusion
     stdin_open: true
     tty: true
     ports:
