@@ -404,7 +404,7 @@
           "hide": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "SSD",
+          "legendFormat": "HDD",
           "range": true,
           "refId": "B",
           "useBackend": false
@@ -421,7 +421,7 @@
           "hide": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "HDD",
+          "legendFormat": "SSD",
           "range": true,
           "refId": "C",
           "useBackend": false
@@ -508,7 +508,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - ((node_filesystem_avail_bytes{mountpoint=\"/mnt/sda\",fstype=\"ext4\"} * 100) / node_filesystem_size_bytes{mountpoint=\"/mnt/sda\",fstype=\"ext4\"})",
+          "expr": "100 - (node_filesystem_free_bytes{device=\"/dev/sdb1\",fstype=\"ext4\"} * 100 / node_filesystem_size_bytes{device=\"/dev/sdb1\",fstype=\"ext4\"})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -600,7 +600,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - ((node_filesystem_avail_bytes{mountpoint=\"/mnt/hdd\",fstype=\"ext4\"} * 100) / node_filesystem_size_bytes{mountpoint=\"/mnt/hdd\",fstype=\"ext4\"})",
+          "expr": "100 - (node_filesystem_free_bytes{device=\"/dev/sda1\",fstype=\"ext4\"} * 100 / node_filesystem_size_bytes{device=\"/dev/sda1\",fstype=\"ext4\"})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1494,7 +1494,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - (node_filesystem_avail_bytes{device=\"/dev/sda1\", fstype=\"ext4\"} * 100 / node_filesystem_size_bytes{device=\"/dev/sda1\", fstype=\"ext4\"})",
+          "expr": "100 - (node_filesystem_free_bytes{device=\"/dev/sda1\",fstype=\"ext4\"} * 100 / node_filesystem_size_bytes{device=\"/dev/sda1\",fstype=\"ext4\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1512,7 +1512,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - ((node_filesystem_avail_bytes{device=\"/dev/mmcblk0p2\", fstype=\"ext4\"} * 100) / node_filesystem_size_bytes{device=\"/dev/mmcblk0p2\", fstype=\"ext4\"})",
+          "expr": "100 - (node_filesystem_free_bytes{device=\"/dev/mmcblk0p2\",fstype=\"ext4\"} * 100 / node_filesystem_size_bytes{device=\"/dev/mmcblk0p2\",fstype=\"ext4\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1530,7 +1530,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - ((node_filesystem_avail_bytes{device=\"/dev/sdb1\", fstype=\"ext4\"} * 100) / node_filesystem_size_bytes{device=\"/dev/sdb1\", fstype=\"ext4\"})",
+          "expr": "100 - (node_filesystem_free_bytes{device=\"/dev/sdb1\",fstype=\"ext4\"} * 100 / node_filesystem_size_bytes{device=\"/dev/sdb1\",fstype=\"ext4\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1709,6 +1709,29 @@
         }
       ],
       "title": "Disk IO",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "mmcblk0(.*)",
+            "renamePattern": "MicroSD $1"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "sda(.*)",
+            "renamePattern": "HDD $1"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "sdb(.*)",
+            "renamePattern": "SSD $1"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -3028,6 +3051,6 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 10,
+  "version": 11,
   "weekStart": ""
 }
