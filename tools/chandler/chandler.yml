@@ -1,0 +1,10 @@
+version: "3"
+services:
+  monica-next:
+    ports:
+      - 3013:80
+    env_file:
+      - .env
+    image: ghcr.io/monicahq/monica-next:main
+    volumes:
+      - ~/dc-data/chandler/storage/:/var/www/html/storage
