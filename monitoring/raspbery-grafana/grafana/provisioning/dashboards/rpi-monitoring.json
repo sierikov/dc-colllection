@@ -1499,7 +1499,7 @@
           "hide": false,
           "includeNullMetadata": true,
           "interval": "",
-          "legendFormat": "SSD",
+          "legendFormat": "HDD",
           "range": true,
           "refId": "B",
           "useBackend": false
@@ -1535,7 +1535,7 @@
           "hide": false,
           "includeNullMetadata": true,
           "interval": "",
-          "legendFormat": "HDD",
+          "legendFormat": "SSD",
           "range": true,
           "refId": "C",
           "useBackend": false
@@ -1721,14 +1721,14 @@
           "id": "renameByRegex",
           "options": {
             "regex": "sda(.*)",
-            "renamePattern": "HDD $1"
+            "renamePattern": "SSD $1"
           }
         },
         {
           "id": "renameByRegex",
           "options": {
             "regex": "sdb(.*)",
-            "renamePattern": "SSD $1"
+            "renamePattern": "HDD $1"
           }
         }
       ],
@@ -2388,8 +2388,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2489,8 +2488,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2589,8 +2587,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2688,8 +2685,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2803,8 +2799,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -2879,8 +2874,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3020,7 +3014,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -3051,6 +3045,6 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 11,
+  "version": 12,
   "weekStart": ""
 }
