@@ -14,6 +14,7 @@ services:
       - ./grafana/.env
     volumes:
       - "~/dc-data/grafana/data:/var/lib/grafana"
+      # Another good hardware monitoring https://grafana.com/grafana/dashboards/1860-node-exporter-full/
       - "./grafana/provisioning:/etc/grafana/provisioning"
     depends_on:
       - prometheus
