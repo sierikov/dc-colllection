@@ -53,6 +53,11 @@ Kafka has following variations:
 - [`kafka-mini.yml`](kafka/kafka-mini.yml) - a minimalistic kafka setup with a single broker and a single zookeeper instance.
 - [`kakfa-ui.yml`](kafka/kafka-ui.yml) - the same as `kafka-mini` and a connected [kafka-ui] instance.
 
+### Mail
+
+This package contains only `mailpit.yml` which deploys lightweight
+SMTP testing tool [mailpit].
+
 ### Monitoring
 
 Monitoring tools:
@@ -140,3 +145,4 @@ This repository prefers the working state of the applications. So all versions a
 [yt-dlp]: https://github.com/yt-dlp/yt-dlp
 [metube]: https://github.com/alexta69/metube
 [pairdrop]: https://pairdrop.net/
+[mailpit]: https://mailpit.axllent.org/
