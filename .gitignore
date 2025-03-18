@@ -1,5 +1,9 @@
+.DS_Store
+
 _local-data/
 local-data
 
 tools/chandler/.env
 tools/hoarder/.env
+
+postgres/sql/*-prod.sql
