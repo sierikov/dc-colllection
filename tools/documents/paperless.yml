@@ -1,7 +1,7 @@
 # After start:
 # docker exec -it paperless bash
 # python3 manage.py createsuperuser
-version: "3.4"
+
 services:
   broker:
     container_name: paperless-redis
@@ -12,7 +12,7 @@ services:
 
   webserver:
     container_name: paperless
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.14.7
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.15.3
     restart: unless-stopped
     depends_on:
       - broker
