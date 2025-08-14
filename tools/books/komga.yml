@@ -6,8 +6,8 @@ services:
     mem_limit: 1g
     container_name: komga
     volumes:
-      - "~/dc-data/komga/config:/config"
-      - "~/dc-data/komga/data:/data"
+      - "~/dc-storage/komga/config:/config"
+      - "~/dc-storage/komga/data:/data"
       - "/etc/timezone:/etc/timezone:ro"
     ports:
       - 3011:25600
@@ -35,6 +35,6 @@ services:
     ports:
       - "3012:4567"
     volumes:
-      - "~/dc-data/suwayomi/config:/home/suwayomi/.local/share/Tachidesk"
-      - "~/dc-data/komga/data:/home/suwayomi/.local/share/Tachidesk/downloads/"
+      - "~/dc-storage/suwayomi/config:/home/suwayomi/.local/share/Tachidesk"
+      - "~/dc-storage/komga/data:/home/suwayomi/.local/share/Tachidesk/downloads/"
     restart: unless-stopped
