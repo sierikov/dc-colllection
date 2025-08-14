@@ -1428,7 +1428,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - (node_filesystem_free_bytes{device=\"/dev/sda1\",fstype=\"ext4\"} * 100 / node_filesystem_size_bytes{device=\"/dev/sda1\",fstype=\"ext4\"})",
+          "expr": "100 - (node_filesystem_free_bytes{mountpoint=\"/mnt/hdd\"} * 100 / node_filesystem_size_bytes{mountpoint=\"/mnt/hdd\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1464,7 +1464,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - (node_filesystem_free_bytes{device=\"/dev/sdb1\",fstype=\"ext4\"} * 100 / node_filesystem_size_bytes{device=\"/dev/sdb1\",fstype=\"ext4\"})",
+          "expr": "100 - (node_filesystem_free_bytes{mountpoint=\"/mnt/ssd\"} * 100 / node_filesystem_size_bytes{mountpoint=\"/mnt/ssd\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1473,6 +1473,19 @@
           "range": true,
           "refId": "C",
           "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "t4f0shgRk"
+          },
+          "editorMode": "code",
+          "expr": "100 - (node_filesystem_free_bytes{mountpoint=\"/mnt/storage\"} * 100 / node_filesystem_size_bytes{mountpoint=\"/mnt/storage\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Storage",
+          "range": true,
+          "refId": "D"
         }
       ],
       "title": "Used Disk Space",
@@ -2983,5 +2996,5 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 16
+  "version": 17
 }
