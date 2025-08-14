@@ -140,7 +140,7 @@
         "type": "prometheus",
         "uid": "t4f0shgRk"
       },
-      "description": "Busy state of all CPU cores together (5 min average)",
+      "description": "Busy state of all CPU cores together (15 min average)",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -216,7 +216,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "((avg(node_load5) / count(count(node_cpu_seconds_total) by (cpu))) / 4) * 400",
+          "expr": "((avg(node_load15) / count(count(node_cpu_seconds_total) by (cpu))) / 4) * 100",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -227,7 +227,7 @@
           "step": 240
         }
       ],
-      "title": "Sys Load (5m avg)",
+      "title": "Sys Load (15m avg)",
       "type": "gauge"
     },
     {
@@ -2983,5 +2983,5 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 15
+  "version": 16
 }
