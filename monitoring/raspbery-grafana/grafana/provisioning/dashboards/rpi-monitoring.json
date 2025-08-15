@@ -1400,7 +1400,7 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 6,
+        "w": 7,
         "x": 0,
         "y": 17
       },
@@ -1500,7 +1500,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "fixed"
           },
           "custom": {
             "axisBorderShow": false,
@@ -1559,8 +1559,9 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "red",
-                  "mode": "shades"
+                  "fixedColor": "dark-orange",
+                  "mode": "continuous-YlRd",
+                  "seriesBy": "last"
                 }
               }
             ]
@@ -1574,8 +1575,8 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "green",
-                  "mode": "shades"
+                  "fixedColor": "dark-blue",
+                  "mode": "continuous-BlPu"
                 }
               }
             ]
@@ -1584,8 +1585,8 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 6,
-        "x": 6,
+        "w": 9,
+        "x": 7,
         "y": 17
       },
       "id": 60,
@@ -1661,7 +1662,7 @@
         {
           "id": "renameByRegex",
           "options": {
-            "regex": "mmcblk0(.*)",
+            "regex": "mmcblk0 (.*)",
             "renamePattern": "MicroSD $1"
           }
         },
@@ -1669,17 +1670,179 @@
           "id": "renameByRegex",
           "options": {
             "regex": "sda(.*)",
-            "renamePattern": "SSD $1"
+            "renamePattern": "Storage $1"
           }
         },
         {
           "id": "renameByRegex",
           "options": {
             "regex": "sdb(.*)",
-            "renamePattern": "HDD $1"
+            "renamePattern": "SSD $1"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "sdc(.*)",
+            "renamePattern": "Drive $1"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "MicroSD - reads",
+                "Storage  - reads",
+                "SSD  - reads",
+                "Drive  - reads",
+                "MicroSD - writes",
+                "Storage  - writes",
+                "SSD  - writes",
+                "Drive  - writes"
+              ]
+            }
           }
         }
       ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "t4f0shgRk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": 31000,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "sent.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed",
+                  "seriesBy": "last"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 17
+      },
+      "id": 19,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0-16952534486",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "t4f0shgRk"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(rate(container_network_receive_bytes_total{id=\"/\"}[$__rate_interval])) by (id)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "received {{device}}",
+          "range": true,
+          "refId": "A",
+          "step": 600
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "t4f0shgRk"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "- sum(rate(container_network_transmit_bytes_total{id=\"/\"}[$__rate_interval])) by (id)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "sent {{device}} ",
+          "range": true,
+          "refId": "B",
+          "step": 600
+        }
+      ],
+      "title": "Network Traffic",
       "type": "timeseries"
     },
     {
@@ -1772,9 +1935,9 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 6,
-        "x": 12,
-        "y": 17
+        "w": 12,
+        "x": 0,
+        "y": 24
       },
       "id": 20,
       "options": {
@@ -1817,7 +1980,9 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "fixedColor": "blue",
+            "mode": "continuous-GrYlRd",
+            "seriesBy": "max"
           },
           "custom": {
             "axisBorderShow": false,
@@ -1829,7 +1994,7 @@
             "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
-            "gradientMode": "none",
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -1837,6 +2002,9 @@
             },
             "insertNulls": false,
             "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
@@ -1846,49 +2014,39 @@
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "none"
+              "mode": "normal"
             },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "dashed"
             }
           },
+          "fieldMinMax": false,
           "mappings": [],
+          "max": 29000000000,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": 0
+              },
+              {
+                "color": "#EAB839",
+                "value": 17106127360
               }
             ]
           },
-          "unit": "bps"
+          "unit": "bytes"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "sent.*"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 7,
-        "w": 6,
-        "x": 18,
-        "y": 17
+        "w": 12,
+        "x": 12,
+        "y": 24
       },
-      "id": 19,
+      "id": 95,
       "options": {
         "legend": {
           "calcs": [],
@@ -1910,36 +2068,16 @@
             "uid": "t4f0shgRk"
           },
           "editorMode": "code",
-          "exemplar": true,
-          "expr": "sum(rate(container_network_receive_bytes_total{id=\"/\"}[$__rate_interval])) by (id)",
-          "format": "time_series",
-          "hide": false,
+          "exemplar": false,
+          "expr": "node_memory_SwapTotal_bytes - node_memory_SwapFree_bytes",
+          "instant": false,
           "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "received {{device}}",
+          "legendFormat": "Allocated swap",
           "range": true,
-          "refId": "A",
-          "step": 600
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "t4f0shgRk"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "- sum(rate(container_network_transmit_bytes_total{id=\"/\"}[$__rate_interval])) by (id)",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "sent {{device}} ",
-          "range": true,
-          "refId": "B",
-          "step": 600
+          "refId": "A"
         }
       ],
-      "title": "Network Traffic",
+      "title": "Swap allocated",
       "type": "timeseries"
     },
     {
@@ -1948,7 +2086,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 31
       },
       "id": 80,
       "panels": [],
@@ -2020,7 +2158,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 25
+        "y": 32
       },
       "id": 84,
       "options": {
@@ -2124,7 +2262,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 39
       },
       "id": 38,
       "options": {
@@ -2242,7 +2380,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 32
+        "y": 39
       },
       "id": 10,
       "options": {
@@ -2363,7 +2501,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 47
       },
       "id": 82,
       "options": {
@@ -2466,7 +2604,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 40
+        "y": 47
       },
       "id": 86,
       "options": {
@@ -2568,7 +2706,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 55
       },
       "id": 49,
       "options": {
@@ -2669,7 +2807,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 55
       },
       "id": 50,
       "options": {
@@ -2727,44 +2865,7 @@
             "lineWidth": 0,
             "spanNulls": false
           },
-          "mappings": [
-            {
-              "options": {
-                "from": 0,
-                "result": {
-                  "color": "green",
-                  "index": 0,
-                  "text": "UP"
-                },
-                "to": 10
-              },
-              "type": "range"
-            },
-            {
-              "options": {
-                "from": 10,
-                "result": {
-                  "color": "yellow",
-                  "index": 1,
-                  "text": "WARN"
-                },
-                "to": 20
-              },
-              "type": "range"
-            },
-            {
-              "options": {
-                "from": 20,
-                "result": {
-                  "color": "red",
-                  "index": 2,
-                  "text": "DOWN"
-                },
-                "to": 999
-              },
-              "type": "range"
-            }
-          ],
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -2774,11 +2875,11 @@
               },
               {
                 "color": "#EAB839",
-                "value": 10
+                "value": 30
               },
               {
                 "color": "red",
-                "value": 20
+                "value": 45
               }
             ]
           },
@@ -2790,7 +2891,7 @@
         "h": 21,
         "w": 18,
         "x": 0,
-        "y": 54
+        "y": 61
       },
       "id": 94,
       "options": {
@@ -2905,7 +3006,7 @@
         "h": 21,
         "w": 6,
         "x": 18,
-        "y": 54
+        "y": 61
       },
       "id": 88,
       "options": {
@@ -2996,5 +3097,5 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 17
+  "version": 18
 }
