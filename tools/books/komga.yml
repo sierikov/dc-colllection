@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   suwayomi:
-    image: ghcr.io/suwayomi/tachidesk:v2.1.1876
+    image: ghcr.io/suwayomi/tachidesk:v2.1.1910
     container_name: suwayomi
     mem_limit: 886m
     user: "1000:1000"
