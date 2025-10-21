@@ -11,3 +11,12 @@ services:
       - /run/dbus:/run/dbus:ro
     restart: unless-stopped
     network_mode: host
+
+  matter-server:
+    container_name: matter-server
+    image: ghcr.io/home-assistant-libs/python-matter-server:8.1
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - ~/dc-data/matter:/data
+      - /run/dbus:/run/dbus:ro
