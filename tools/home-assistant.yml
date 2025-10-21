@@ -2,6 +2,9 @@ services:
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:2025.10.1"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     volumes:
       - ~/dc-data/assistant-config:/config
       - /etc/localtime:/etc/localtime:ro
