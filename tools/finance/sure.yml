@@ -1,0 +1,70 @@
+services:
+  web:
+    image: ghcr.io/we-promise/sure:latest
+    volumes:
+      - ~/dc-data/sure/app-storage/:/rails/storage
+    ports:
+      - 3014:3000
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - sure_net
+
+  worker:
+    image: ghcr.io/we-promise/sure:latest
+    command: bundle exec sidekiq
+    volumes:
+      - ~/dc-data/sure/worker-storage/:/rails/storage
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - sure_net
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    volumes:
+      - ~/dc-data/sure/db/:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 15s
+      timeout: 55s
+      retries: 5
+    networks:
+      - sure_net
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    volumes:
+      - ~/dc-data/sure/redis/:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sure_net
+
+volumes:
+  app-storage:
+  postgres-data:
+  redis-data:
+
+networks:
+  sure_net:
+    driver: bridge
