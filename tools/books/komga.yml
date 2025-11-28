@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   komga:
-    image: gotson/komga:1.23.4
+    image: gotson/komga:1.23.6
     mem_limit: 1g
     container_name: komga
     volumes:
@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   suwayomi:
-    image: ghcr.io/suwayomi/tachidesk:v2.1.1960
+    image: ghcr.io/suwayomi/tachidesk:v2.1.2019
     container_name: suwayomi
     mem_limit: 886m
     user: "1000:1000"
