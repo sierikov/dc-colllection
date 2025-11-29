@@ -387,26 +387,9 @@
           },
           "editorMode": "code",
           "expr": "node_filesystem_avail_bytes{mountpoint=\"/\",fstype!=\"rootfs\"} ",
-          "legendFormat": "MicroSD",
+          "legendFormat": "Root",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "t4f0shgRk"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "node_filesystem_avail_bytes{mountpoint=\"/mnt/ssd\"}",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "SSD",
-          "range": true,
-          "refId": "B",
-          "useBackend": false
         },
         {
           "datasource": {
@@ -520,7 +503,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - (node_filesystem_free_bytes{mountpoint=\"/mnt/ssd\"} * 100 / node_filesystem_size_bytes{mountpoint=\"/mnt/ssd\"})",
+          "expr": "100 - (node_filesystem_free_bytes{mountpoint=\"/\"} * 100 / node_filesystem_size_bytes{mountpoint=\"/\"})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -714,88 +697,6 @@
         "type": "prometheus",
         "uid": "t4f0shgRk"
       },
-      "description": "System uptime",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "text": "N/A"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 6
-      },
-      "id": 89,
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.2.0-16952534486",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "t4f0shgRk"
-          },
-          "editorMode": "code",
-          "expr": "node_time_seconds - node_boot_time_seconds",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Uptime",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "t4f0shgRk"
-      },
       "description": "Non available RAM memory",
       "fieldConfig": {
         "defaults": {
@@ -830,7 +731,7 @@
       "gridPos": {
         "h": 4,
         "w": 4,
-        "x": 8,
+        "x": 4,
         "y": 6
       },
       "id": 54,
@@ -938,8 +839,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 3,
-        "x": 18,
+        "w": 4,
+        "x": 8,
         "y": 6
       },
       "id": 56,
@@ -979,6 +880,88 @@
       ],
       "title": "SWAP Used",
       "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "t4f0shgRk"
+      },
+      "description": "System uptime",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 6
+      },
+      "id": 89,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.2.0-16952534486",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "t4f0shgRk"
+          },
+          "editorMode": "code",
+          "expr": "node_time_seconds - node_boot_time_seconds",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Uptime",
+      "type": "stat"
     },
     {
       "datasource": {},
@@ -3097,5 +3080,5 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 18
+  "version": 19
 }
