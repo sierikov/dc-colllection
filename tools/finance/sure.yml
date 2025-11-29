@@ -48,7 +48,7 @@ services:
       - sure_net
 
   redis:
-    image: redis:7
+    image: redis:8
     restart: unless-stopped
     volumes:
       - ~/dc-data/sure/redis/:/data
