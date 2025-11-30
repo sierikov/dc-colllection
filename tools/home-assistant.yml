@@ -3,20 +3,30 @@ services:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:2025.10.1"
     cap_add:
-      - NET_ADMIN
       - NET_RAW
     volumes:
       - ~/dc-data/assistant-config:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
     restart: unless-stopped
-    network_mode: host
+    ports:
+        - "8123:8123"      # UI
+        - "51827:51827"    # HomeKit Bridge (TCP)
+    networks:
+      - ha_net
 
   matter-server:
     container_name: matter-server
     image: ghcr.io/home-assistant-libs/python-matter-server:8.1
-    network_mode: host
     restart: unless-stopped
     volumes:
       - ~/dc-data/matter:/data
       - /run/dbus:/run/dbus:ro
+    ports:
+      - "5580:5580"
+    networks:
+      - ha_net
+
+networks:
+  ha_net:
+    driver: bridge
