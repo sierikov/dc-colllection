@@ -387,7 +387,7 @@
           },
           "editorMode": "code",
           "expr": "node_filesystem_avail_bytes{mountpoint=\"/\",fstype!=\"rootfs\"} ",
-          "legendFormat": "Root",
+          "legendFormat": "System",
           "range": true,
           "refId": "A"
         },
@@ -1447,12 +1447,12 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": true,
-          "expr": "100 - (node_filesystem_free_bytes{mountpoint=\"/mnt/ssd\"} * 100 / node_filesystem_size_bytes{mountpoint=\"/mnt/ssd\"})",
+          "expr": "100 - (node_filesystem_free_bytes{mountpoint=\"/\"} * 100 / node_filesystem_size_bytes{mountpoint=\"/\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
           "interval": "",
-          "legendFormat": "SSD",
+          "legendFormat": "System",
           "range": true,
           "refId": "C",
           "useBackend": false
@@ -2138,7 +2138,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 11,
         "w": 24,
         "x": 0,
         "y": 32
@@ -2177,125 +2177,6 @@
         }
       ],
       "title": "CPU Usage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "t4f0shgRk"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "decimals": 1,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "bytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 39
-      },
-      "id": 38,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.2.0-16952534486",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "t4f0shgRk"
-          },
-          "editorMode": "code",
-          "expr": "container_memory_usage_bytes{name!=\"\"}",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{name}}",
-          "range": true,
-          "refId": "A",
-          "target": ""
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "t4f0shgRk"
-          },
-          "editorMode": "code",
-          "expr": "container_spec_memory_limit_bytes{name!=\"\"}",
-          "format": "time_series",
-          "hide": true,
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "Limit {{name}}",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Used Memory",
       "type": "timeseries"
     },
     {
@@ -2360,10 +2241,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 39
+        "h": 14,
+        "w": 24,
+        "x": 0,
+        "y": 43
       },
       "id": 10,
       "options": {
@@ -2445,7 +2326,7 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
+            "insertNulls": 5000,
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
@@ -2481,10 +2362,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 10,
+        "w": 24,
         "x": 0,
-        "y": 47
+        "y": 57
       },
       "id": 82,
       "options": {
@@ -2495,12 +2376,14 @@
           ],
           "displayMode": "table",
           "placement": "right",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
         },
         "tooltip": {
-          "hideZeros": false,
+          "hideZeros": true,
           "mode": "multi",
-          "sort": "none"
+          "sort": "desc"
         }
       },
       "pluginVersion": "12.2.0-16952534486",
@@ -2511,7 +2394,7 @@
             "uid": "t4f0shgRk"
           },
           "editorMode": "code",
-          "expr": "sum(rate(container_network_receive_bytes_total{name=~\".+\"}[$__rate_interval])) by (name)",
+          "expr": "sum(rate(container_network_receive_bytes_total{\n  name=~\".+\",\n  name!~\"homeassistant|matter-server|monitoring.*\",\n  name!=\"Value|monitoring-*\"\n}[$__rate_interval])) by (name)",
           "hide": false,
           "interval": "",
           "legendFormat": "{{name}}",
@@ -2548,7 +2431,7 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
+            "insertNulls": 5000,
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
@@ -2584,10 +2467,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 47
+        "h": 14,
+        "w": 14,
+        "x": 0,
+        "y": 67
       },
       "id": 86,
       "options": {
@@ -2601,9 +2484,9 @@
           "showLegend": true
         },
         "tooltip": {
-          "hideZeros": false,
+          "hideZeros": true,
           "mode": "multi",
-          "sort": "none"
+          "sort": "desc"
         }
       },
       "pluginVersion": "12.2.0-16952534486",
@@ -2614,7 +2497,7 @@
             "uid": "t4f0shgRk"
           },
           "editorMode": "code",
-          "expr": "sum(rate(container_network_transmit_bytes_total{name=~\".+\"}[$__rate_interval])) by (name)",
+          "expr": "sum(\n  rate(container_network_transmit_bytes_total{\n    name=~\".+\",\n    name!~\"homeassistant|matter-server|monitoring.*\",\n    name!=\"Value\"\n  }[$__rate_interval])\n) by (name)",
           "interval": "",
           "legendFormat": "{{name}}",
           "range": true,
@@ -2648,7 +2531,7 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
+            "insertNulls": 5000,
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
@@ -2687,15 +2570,15 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 55
+        "w": 10,
+        "x": 14,
+        "y": 67
       },
       "id": 49,
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "table",
+          "displayMode": "list",
           "placement": "right",
           "showLegend": true
         },
@@ -2714,7 +2597,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum without (dc,from,id,csv) (irate(container_fs_writes_bytes_total{image!=\"\",device!~\"/dev/dm.*\"}[$__rate_interval]))",
+          "expr": "sum without (dc,from,id,csv) (irate(container_fs_writes_bytes_total{image!=\"\",device!~\"/dev/dm.*\", name!~\"homeassistant|matter-server|monitoring.*\"}[$__rate_interval]))",
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{name}}",
@@ -2749,7 +2632,7 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
+            "insertNulls": 5000,
             "lineInterpolation": "smooth",
             "lineWidth": 2,
             "pointSize": 5,
@@ -2787,15 +2670,120 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 55
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 73
       },
       "id": 50,
       "options": {
         "legend": {
           "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.2.0-16952534486",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "t4f0shgRk"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum without (dc,from,id,csv) (irate(container_fs_reads_bytes_total{image!=\"\",device!~\"/dev/dm.*\",name!~\"homeassistant|matter-server|monitoring.*\",}[$__rate_interval]))",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "I/O Tx FS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "t4f0shgRk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 81
+      },
+      "id": 38,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -2814,16 +2802,33 @@
             "uid": "t4f0shgRk"
           },
           "editorMode": "code",
-          "exemplar": true,
-          "expr": "sum without (dc,from,id,csv) (irate(container_fs_reads_bytes_total{image!=\"\",device!~\"/dev/dm.*\"}[$__rate_interval]))",
+          "expr": "container_memory_usage_bytes{name!=\"\"}",
+          "format": "time_series",
+          "hide": false,
           "interval": "",
-          "intervalFactor": 1,
+          "intervalFactor": 2,
           "legendFormat": "{{name}}",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "target": ""
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "t4f0shgRk"
+          },
+          "editorMode": "code",
+          "expr": "container_spec_memory_limit_bytes{name!=\"\"}",
+          "format": "time_series",
+          "hide": true,
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Limit {{name}}",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "I/O Tx FS",
+      "title": "Used Memory",
       "type": "timeseries"
     },
     {
@@ -2874,7 +2879,7 @@
         "h": 21,
         "w": 18,
         "x": 0,
-        "y": 61
+        "y": 93
       },
       "id": 94,
       "options": {
@@ -2989,7 +2994,7 @@
         "h": 21,
         "w": 6,
         "x": 18,
-        "y": 61
+        "y": 93
       },
       "id": 88,
       "options": {
@@ -3080,5 +3085,5 @@
   "timezone": "browser",
   "title": "Raspberry Pi & Docker Monitoring",
   "uid": "VKtkKcAVz",
-  "version": 19
+  "version": 20
 }
