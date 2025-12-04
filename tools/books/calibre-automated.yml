@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  calibre-web:
+    image: crocodilestick/calibre-web-automated:V3.1.4
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      # - HARDCOVER_TOKEN - Get at https://hardcover.app/account/api and set in the Admin interface
+      # If you need conversion from mobi to azw3 support, enable this
+      # - DOCKER_MODS=lscr.io/linuxserver/mods:universal-calibre-v8.15.0
+    volumes:
+      - ~/dc-data/calibre/config:/config
+      - ~/dc-data/calibre/library:/calibre-library
+      - ~/dc-data/calibre/ingest:/cwa-book-ingest
+
+    ports:
+      - "3016:8083"
+    restart: unless-stopped
+
+  calibre-web-downloader:
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader-tor:0.3
+    container_name: calibre-web-downloader
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - FLASK_PORT=8084
+      - CWA_INGEST_PATH=/cwa-book-ingest
+      - CALIBRE_WEB_URL=https://books.b0xy.xyz
+      - BOOK_LANGUAGE=en,de,uk,ru
+    volumes:
+      - ~/dc-data/calibre/ingest:/cwa-book-ingest
+    ports:
+      - "3017:8084"
+    restart: unless-stopped
