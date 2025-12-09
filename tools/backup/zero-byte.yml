@@ -1,0 +1,17 @@
+services:
+  zerobyte:
+    image: ghcr.io/nicotsx/zerobyte:v0.17
+    container_name: zerobyte
+    restart: unless-stopped
+    cap_add:
+      - SYS_ADMIN
+    ports:
+      - 3018:4096
+    devices:
+      - /dev/fuse:/dev/fuse
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/lib/zerobyte:/var/lib/zerobyte
+      - ~/dc-data:/backup:ro
