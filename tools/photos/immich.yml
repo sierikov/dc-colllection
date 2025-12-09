@@ -33,7 +33,6 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "2"
           memory: 2G
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
     volumes:
