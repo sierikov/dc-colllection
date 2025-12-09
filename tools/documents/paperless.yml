@@ -8,7 +8,7 @@ services:
     image: docker.io/library/redis:7
     restart: unless-stopped
     volumes:
-      - "~/dc-data/paperless/redisdata:/data"
+      - ~/dc-data/paperless/redisdata:/data
 
   webserver:
     container_name: paperless
@@ -17,13 +17,13 @@ services:
     depends_on:
       - broker
     ports:
-      - "3009:8000"
+      - 3009:8000
     env_file:
       - .env
     volumes:
-      - "~/dc-data/paperless/data:/usr/src/paperless/data"
-      - "~/dc-data/paperless/media:/usr/src/paperless/media"
-      - "~/dc-data/paperless/export:/usr/src/paperless/export"
-      - "~/dc-data/paperless/consume:/usr/src/paperless/consume"
+      - ~/dc-data/paperless/data:/usr/src/paperless/data
+      - ~/dc-data/paperless/media:/usr/src/paperless/media
+      - ~/dc-data/paperless/export:/usr/src/paperless/export
+      - ~/dc-data/paperless/consume:/usr/src/paperless/consume
     environment:
       PAPERLESS_REDIS: redis://broker:6379

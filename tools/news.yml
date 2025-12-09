@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   fusion:
     image: rook1e404/fusion

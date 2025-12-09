@@ -1,7 +1,4 @@
-version: "3"
-
 services:
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.2.1
     restart: on-failure
@@ -9,7 +6,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=*"
     ports:
-      - "2181:2181"
+      - 2181:2181
     healthcheck:
       test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
       interval: 10s
@@ -41,9 +38,9 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     ports:
-      - "9092:9092"
+      - 9092:9092
 
-    
+
     networks:
       - kafka-cf-cluster-network
 
@@ -58,7 +55,7 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:9093
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
     ports:
-      - "8081:8081"
+      - 8081:8081
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/subjects"]
       interval: 30s
@@ -80,7 +77,7 @@ services:
       KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://kafka-schema-registry:8081
       SERVER_PORT: 8083
     ports:
-      - "8089:8083"
+      - 8089:8083
     networks:
       - kafka-cf-cluster-network
 

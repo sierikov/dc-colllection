@@ -1,13 +1,11 @@
-version: '3'
-
 services:
   db:
     image: postgres:15.3
     command: ["postgres", "-c", "log_statement=all"]
     restart: always
     volumes:
-      - "./sql:/docker-entrypoint-initdb.d"
-      - "~/dc-data/postgres:/var/lib/postgresql/data"
+      - ./sql:/docker-entrypoint-initdb.d
+      - ~/dc-data/postgres:/var/lib/postgresql/data
     environment:
       - "POSTGRES_USER=docker"
       - "POSTGRES_PASSWORD=docker"
@@ -18,7 +16,7 @@ services:
     image: dbgate/dbgate
     restart: always
     volumes:
-      - "~/dc-data/dbgate:/root/.dbgate"
+      - ~/dc-data/dbgate:/root/.dbgate
     environment:
       CONNECTIONS: con1
       LABEL_con1: Postgres

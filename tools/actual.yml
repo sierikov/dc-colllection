@@ -6,4 +6,4 @@ services:
     ports:
       - 3004:5006
     volumes:
-      - "~/dc-data/actual/:/data"
+      - ~/dc-data/actual/:/data

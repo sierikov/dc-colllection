@@ -1,16 +1,15 @@
-version: "3.8"
 services:
   proxy:
     image: jc21/nginx-proxy-manager:2.13.5
     container_name: proxy
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "81:81"
-      - "443:443"
+      - 80:80
+      - 81:81
+      - 443:443
     volumes:
-      - "~/dc-data/proxy/data:/data"
-      - "~/dc-data/proxy/letsencrypt:/etc/letsencrypt"
+      - ~/dc-data/proxy/data:/data
+      - ~/dc-data/proxy/letsencrypt:/etc/letsencrypt
     networks:
       - proxy-network
 

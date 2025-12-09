@@ -1,15 +1,13 @@
-version: '3'
-
 services:
   db:
     image: postgres:15.3
     command: ["postgres", "-c", "log_statement=all"]
     restart: always
     volumes:
-      - "./sql:/docker-entrypoint-initdb.d"
-      - "~/dc-data/postgres:/var/lib/postgresql/data"
+      - ./sql:/docker-entrypoint-initdb.d
+      - ~/dc-data/postgres:/var/lib/postgresql/data
     environment:
       - "POSTGRES_USER=docker"
       - "POSTGRES_PASSWORD=docker"
     ports:
-      - "5432:5432"
+      - 5432:5432

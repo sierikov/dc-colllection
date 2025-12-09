@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   zookeeper:
     image: bitnami/zookeeper:3.8
@@ -16,7 +14,7 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
-    ports: 
+    ports:
       - 9092:9092
 
   kafka_ui:
