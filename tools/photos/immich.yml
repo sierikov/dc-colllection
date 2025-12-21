@@ -45,7 +45,7 @@ services:
 
   redis:
     container_name: immich-redis
-    image: registry.hub.docker.com/library/redis:${IMMICH_CACHE_VERSION}
+    image: docker.io/valkey/valkey:${IMMICH_CACHE_VERSION}
     healthcheck:
       test: redis-cli ping || exit 1
     restart: unless-stopped
