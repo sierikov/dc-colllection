@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   web:
-    image: ghcr.io/karakeep-app/karakeep:0.27.1 # https://github.com/karakeep-app/karakeep/releases
+    image: ghcr.io/karakeep-app/karakeep:0.29.3 # https://github.com/karakeep-app/karakeep/releases
     restart: unless-stopped
     volumes:
       - ~/dc-data/hoarder/data:/data
