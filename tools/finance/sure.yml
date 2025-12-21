@@ -1,6 +1,6 @@
 services:
   web:
-    image: ghcr.io/we-promise/sure:0.6.5
+    image: ghcr.io/we-promise/sure:nightly
     volumes:
       - ~/dc-data/sure/app-storage/:/rails/storage
     ports:
@@ -17,7 +17,7 @@ services:
       - sure_net
 
   worker:
-    image: ghcr.io/we-promise/sure:0.6.5
+    image: ghcr.io/we-promise/sure:nightly
     command: bundle exec sidekiq
     volumes:
       - ~/dc-data/sure/worker-storage/:/rails/storage
