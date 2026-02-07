@@ -1,6 +1,6 @@
 services:
   zerobyte:
-    image: ghcr.io/nicotsx/zerobyte:v0.19.3
+    image: ghcr.io/nicotsx/zerobyte:v0.25.1
     container_name: zerobyte
     restart: unless-stopped
     cap_add:
@@ -10,10 +10,13 @@ services:
     devices:
       - /dev/fuse:/dev/fuse
     environment:
+      - APP_SECRET=7848f4732ff95c6446671927f839bc3eda3fbea1d26df1789d947938684e5635
       - TZ=Europe/Berlin
+      - BASE_URL=https://backup.b0xy.xyz
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/lib/zerobyte:/var/lib/zerobyte
       - ~/dc-data:/dc-data:ro
+      - ~/dc-storage:/dc-storage:ro
       - ~/backups/:/backups
       - ~/.config/rclone:/root/.config/rclone
