@@ -4,7 +4,7 @@ networks:
 
 services:
   server:
-    image: codeberg.org/forgejo/forgejo:13.0.3 # https://codeberg.org/forgejo/forgejo/releases
+    image: codeberg.org/forgejo/forgejo:14.0.2 # https://codeberg.org/forgejo/forgejo/releases
     container_name: forgejo
     environment:
       - USER_UID=1000
