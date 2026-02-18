@@ -1,6 +1,7 @@
 services:
   web:
     image: ghcr.io/we-promise/sure:nightly
+    container_name: sure
     volumes:
       - ~/dc-data/sure/app-storage/:/rails/storage
     ports:
@@ -18,6 +19,7 @@ services:
 
   worker:
     image: ghcr.io/we-promise/sure:nightly
+    container_name: sure-worker
     command: bundle exec sidekiq
     volumes:
       - ~/dc-data/sure/worker-storage/:/rails/storage
@@ -34,6 +36,7 @@ services:
 
   db:
     image: postgres:16
+    container_name: sure-db
     restart: unless-stopped
     volumes:
       - ~/dc-data/sure/db/:/var/lib/postgresql/data
@@ -49,6 +52,7 @@ services:
 
   redis:
     image: redis:8
+    container_name: sure-redis
     restart: unless-stopped
     volumes:
       - ~/dc-data/sure/redis/:/data

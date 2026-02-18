@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:15.3
+    container_name: postgres
     command: ["postgres", "-c", "log_statement=all"]
     restart: unless-stopped
     environment:
@@ -13,6 +14,7 @@ services:
       - ~/dc-data/postgres:/var/lib/postgresql/data
   pgadmin:
     image: dpage/pgadmin4:8.5
+    container_name: pgadmin
     restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com

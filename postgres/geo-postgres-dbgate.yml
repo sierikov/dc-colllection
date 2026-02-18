@@ -1,6 +1,7 @@
 services:
   db:
     image: postgis/postgis:14-3.2-alpine
+    container_name: geo-postgres
     command: ["postgres", "-c", "log_statement=all"]
     restart: unless-stopped
     volumes:
@@ -16,6 +17,7 @@ services:
 
   dbgate:
     image: dbgate/dbgate
+    container_name: geo-dbgate
     restart: unless-stopped
     volumes:
       - ~/dc-data/dbgate:/root/.dbgate

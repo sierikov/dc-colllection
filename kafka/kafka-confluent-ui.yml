@@ -1,6 +1,7 @@
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.2.1
+    container_name: kafka-zk
     restart: on-failure
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -17,6 +18,7 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.2.1
+    container_name: kafka
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -46,6 +48,7 @@ services:
 
   kafka-schema-registry:
     image: confluentinc/cp-schema-registry:7.2.1
+    container_name: schema-registry
     depends_on:
       kafka:
         condition: service_healthy
@@ -66,6 +69,7 @@ services:
 
   kafka-ui:
     image: ghcr.io/kafbat/kafka-ui:latest
+    container_name: kafka-ui
     depends_on:
       - kafka
       - kafka-schema-registry

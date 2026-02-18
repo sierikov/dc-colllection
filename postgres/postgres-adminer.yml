@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:15.3
+    container_name: postgres
     command: ["postgres", "-c", "log_statement=all"]
     restart: unless-stopped
     environment:
@@ -14,6 +15,7 @@ services:
 
   adminer:
     image: adminer
+    container_name: adminer
     restart: unless-stopped
     ports:
       - 8085:8080

@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:15.3
+    container_name: postgres
     command: ["postgres", "-c", "log_statement=all"]
     restart: unless-stopped
     volumes:

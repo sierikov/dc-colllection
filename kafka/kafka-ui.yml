@@ -1,11 +1,13 @@
 services:
   zookeeper:
     image: bitnami/zookeeper:3.8
+    container_name: kafka-zk
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
     image: bitnami/kafka:3.3
+    container_name: kafka
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:9092
@@ -19,6 +21,7 @@ services:
 
   kafka_ui:
     image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
     ports:
       - 8089:8080
     environment:

@@ -1,6 +1,7 @@
 services:
   gitness:
     image: harness/gitness
+    container_name: gitness
     ports:
       - 3000:3000
     volumes:

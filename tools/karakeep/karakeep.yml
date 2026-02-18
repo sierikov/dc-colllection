@@ -1,6 +1,7 @@
 services:
   web:
     image: ghcr.io/karakeep-app/karakeep:0.29.3 # https://github.com/karakeep-app/karakeep/releases
+    container_name: karakeep
     restart: unless-stopped
     volumes:
       - ~/dc-data/hoarder/data:/data
@@ -16,6 +17,7 @@ services:
   meilisearch:
     mem_limit: 400m
     image: getmeili/meilisearch:v1.11.1
+    container_name: karakeep-meili
     restart: unless-stopped
     env_file:
       - .env
