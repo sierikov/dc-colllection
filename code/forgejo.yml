@@ -10,7 +10,7 @@ services:
       - USER_UID=1000
       - USER_GID=1000
       - FORGEJO__actions__ENABLED=false
-    restart: always
+    restart: unless-stopped
     networks:
       - forgejo
     volumes:
