@@ -28,7 +28,13 @@ The collection is structured as follows:
 - `postgres` folder contains compose files for a Postgres database.
 - `proxy` folder contains a compose file for a proxy server.
 - `redis` folder contains compose files for a Redis database.
-- `tools` folder contains various tools for day-to-day life.
+- `tools` folder contains various tools for day-to-day life:
+  - `auto` - automation tools
+  - `backup` - backup tools
+  - `books` - ebook/audiobook managers
+  - `documents` - document management tools
+  - `finance` - finance management tools
+  - `photos` - photo management tools
 - `own` folder contains custom docker images.
 
 ### Cassandra
@@ -77,6 +83,7 @@ Postgres has following variations:
 - [`postgres-adminer.yml`](postgres/postgres-adminer.yml) - the same as `postgres-mini` and a connected [adminer] instance.
 - [`postgres-dbgate.yml`](postgres/postgres-dbgate.yml) - the same as `postgres-mini` and a connected [dbgate] instance.
 - [`postgres-pgadmin.yml`](postgres/postgres-pgadmin.yml) - the same as `postgres-mini` and a connected [pgadmin] instance.
+- [`geo-postgres-dbgate.yml`](postgres/geo-postgres-dbgate.yml) - a PostGIS setup with a connected [dbgate] instance.
 
 ### Proxy
 
@@ -95,15 +102,21 @@ Contains various tools for day-to-day life:
 
 - Automation:
   - [`semaphore.yml`](tools/auto/semaphore.yml) - a setup with [Ansible Semaphore] automation platform.
+- Backup:
+  - [`zero-byte.yml`](tools/backup/zero-byte.yml) - a setup with [Zerobyte] backup tool with rclone support.
 - Books:
+  - [`audiobooks.yml`](tools/books/audiobooks.yml) - a setup with [Audiobookshelf] audiobook/podcast manager.
   - [`calibre.yml`](tools/books/calibre.yml) - a setup with web version [calibre] ebook manager.
+  - [`calibre-automated.yml`](tools/books/calibre-automated.yml) - a setup with [Calibre-Web Automated] with book downloader.
   - [`komga.yml`](tools/books/komga.yml) - a setup with [komga] comics manager.
 - Document management:
   - [`paperless.yml`](tools/documents/paperless.yml) - a setup with [paperless-ngx] document manager.
   - [`hat.yml`](tools/documents/hat.yml) - a setup with [hat] encryption tool.
+- Finance:
+  - [`actual.yml`](tools/actual.yml) - a setup with [actual] finance management system.
+  - [`sure.yml`](tools/finance/sure.yml) - a setup with [Sure] finance tracker.
 - Photos:
   - [`immich.yml`](tools/photos/immich.yml) - a setup with [immich] photo manager.
-- [`actual.yml`](tools/actual.yml) - a setup with [actual] finance management system.
 - [`home-assistant.yml`](tools/home-assistant.yml) - a setup with [Home Assistant] home automation platform.
 - [`homebox.yml`](tools/homebox.yml) - inventory management system for home, a bit unpolished, but works.
 - [`karakeep.yml`](tools/karakeep/karakeep.yml) - a setup with [Karakeep] bookmarking and archiving tool.
@@ -154,3 +167,7 @@ This repository prefers the working state of the applications. So all versions a
 [Home Assistant]: https://www.home-assistant.io/
 [Karakeep]: https://github.com/karakeep-app/karakeep
 [Fusion]: https://github.com/0x2E/fusion
+[Zerobyte]: https://github.com/nicotsx/zerobyte
+[Audiobookshelf]: https://www.audiobookshelf.org/
+[Calibre-Web Automated]: https://github.com/crocodilestick/calibre-web-automated
+[Sure]: https://github.com/wepromise/sure
