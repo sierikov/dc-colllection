@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   web:
     image: ghcr.io/karakeep-app/karakeep:0.29.3 # https://github.com/karakeep-app/karakeep/releases
