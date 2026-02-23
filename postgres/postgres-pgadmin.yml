@@ -19,7 +19,6 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
-    user: "$UID:$GID"
     ports:
       - 8085:80
     volumes:

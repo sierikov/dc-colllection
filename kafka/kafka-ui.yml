@@ -27,5 +27,5 @@ services:
     environment:
       - KAFKA_CLUSTERS_0_NAME=DC-Kafka
       ## Uncomment following to enable external schema
-      #- KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://example-shema.org:28081
+      # - KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://example-shema.org:28081
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092

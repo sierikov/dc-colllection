@@ -8,9 +8,9 @@ services:
     env_file:
       - .env
     environment:
-     POSTGRES_USER: ${SEMPH_DB_USERNAME}
-     POSTGRES_PASSWORD: ${SEMPH_DB_PASS}
-     POSTGRES_DB: semaphore
+      POSTGRES_USER: ${SEMPH_DB_USERNAME}
+      POSTGRES_PASSWORD: ${SEMPH_DB_PASS}
+      POSTGRES_DB: semaphore
 
   semaphore-db-backup:
     container_name: semaphore-db-backup
@@ -30,13 +30,13 @@ services:
     volumes:
       - ${SEMPH_DATA_LOCATION}:/db_dumps
     depends_on:
-      - database
+      - semaphore-db
 
   semaphore:
     container_name: semaphore
     mem_limit: 80mb
     restart: unless-stopped
-    env:
+    env_file:
       - .env
     ports:
       - 3001:3000
@@ -44,8 +44,8 @@ services:
     environment:
       SEMAPHORE_DB_USER: ${SEMPH_DB_USERNAME}
       SEMAPHORE_DB_PASS: ${SEMPH_DB_PASS}
-      SEMAPHORE_DB_HOST: semaphore-db 
-      SEMAPHORE_DB_PORT: 5432 
+      SEMAPHORE_DB_HOST: semaphore-db
+      SEMAPHORE_DB_PORT: 5432
       SEMAPHORE_DB_DIALECT: postgres
       SEMAPHORE_DB: semaphore
       SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/

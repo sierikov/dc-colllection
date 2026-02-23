@@ -15,3 +15,6 @@ services:
     container_name: msql
     volumes:
       - "data:/mydata/"
+
+volumes:
+  data:
