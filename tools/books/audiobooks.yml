@@ -6,6 +6,7 @@ services:
       - 3019:80
     volumes:
       - ~/dc-storage/audiobookshelf/audiobooks:/audiobooks
+      - ~/dc-storage/audiobookshelf/books:/books
       - ~/dc-storage/audiobookshelf/podcasts:/podcasts
       - ~/dc-storage/audiobookshelf/config:/config
       - ~/dc-storage/audiobookshelf/metadata:/metadata
