@@ -27,7 +27,12 @@ jobs:
 
       - name: Validate compose files
         run: |
-          for f in $(find . -name "*.yml" -o -name "*.yaml" | grep -v ".git" | grep -v "provisioning" | grep -v "prometheus/prometheus.yml"); do
+          find . -name "*.yml" -o -name "*.yaml" \
+            | grep -v ".git" \
+            | grep -v "provisioning" \
+            | grep -v "prometheus/prometheus.yml" \
+            | while read -r f; do
             echo "Validating: $f"
-            docker compose -f "$f" config --quiet 2>&1 | grep -v -e "env file.*not found" || true
+            docker compose -f "$f" config --quiet 2>&1 \
+              | grep -v -e "env file.*not found" || true
           done
