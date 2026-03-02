@@ -32,5 +32,5 @@ services:
     volumes:
       - ~/dc-data/calibre/ingest:/cwa-book-ingest
     ports:
-      - "3017:8084"
+      - "3021:8084"
     restart: unless-stopped

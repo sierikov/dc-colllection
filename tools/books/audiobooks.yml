@@ -12,3 +12,20 @@ services:
       - ~/dc-storage/audiobookshelf/metadata:/metadata
     environment:
       - TZ=Europe/Berlin
+
+  shelfmark:
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader-tor:1.1.2
+    container_name: shelfmark
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - FLASK_PORT=8084
+      - CWA_INGEST_PATH=/cwa-book-ingest
+      - CALIBRE_WEB_URL=https://audiobooks.b0xy.xyz
+      - BOOK_LANGUAGE=en,de,uk,ru
+    volumes:
+      - ~/dc-storage/audiobookshelf/books:/cwa-book-ingest
+    ports:
+      - "3017:8084"
+    restart: unless-stopped
