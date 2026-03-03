@@ -1,6 +1,6 @@
 services:
   web:
-    image: ghcr.io/karakeep-app/karakeep:0.29.3 # https://github.com/karakeep-app/karakeep/releases
+    image: ghcr.io/karakeep-app/karakeep:0.31.0 # https://github.com/karakeep-app/karakeep/releases
     container_name: karakeep
     restart: unless-stopped
     volumes:
@@ -11,7 +11,6 @@ services:
       - .env
     environment:
       MEILI_ADDR: http://meilisearch:7700
-      # BROWSER_WEB_URL: http://chrome:9222
       DATA_DIR: /data
 
   meilisearch:
@@ -25,13 +24,3 @@ services:
       MEILI_NO_ANALYTICS: "true"
     volumes:
       - ~/dc-data/hoarder/meili_data:/meili_data
-  # chrome:
-  #   image: gcr.io/zenika-hub/alpine-chrome:123
-  #   restart: unless-stopped
-  #   command:
-  #     - --no-sandbox
-  #     - --disable-gpu
-  #     - --disable-dev-shm-usage
-  #     - --remote-debugging-address=0.0.0.0
-  #     - --remote-debugging-port=9222
-  #     - --hide-scrollbars
