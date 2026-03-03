@@ -18,19 +18,22 @@ services:
       - "3016:8083"
     restart: unless-stopped
 
-  calibre-web-downloader:
-    image: ghcr.io/calibrain/calibre-web-automated-book-downloader-tor:0.4.0
-    container_name: calibre-web-downloader
+  shelfmark:
+    image: ghcr.io/calibrain/shelfmark:1.1.2
+    container_name: shelfmark
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
+      - USING_TOR=true
       - FLASK_PORT=8084
       - CWA_INGEST_PATH=/cwa-book-ingest
       - CALIBRE_WEB_URL=https://books.b0xy.xyz
       - BOOK_LANGUAGE=en,de,uk,ru
     volumes:
+      - ~/dc-data/shelfmark/config:/config
       - ~/dc-data/calibre/ingest:/cwa-book-ingest
+      - ~/dc-storage/audiobookshelf/audiobooks:/audiobooks
     ports:
-      - "3021:8084"
+      - "3017:8084"
     restart: unless-stopped
