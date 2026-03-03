@@ -2,13 +2,13 @@ services:
   calibre-web:
     image: crocodilestick/calibre-web-automated:v4.0.6
     container_name: calibre-web
+    env_file:
+      - .env
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
-      # - HARDCOVER_TOKEN - Get at https://hardcover.app/account/api and set in the Admin interface
-      # If you need conversion from mobi to azw3 support, enable this
-      # - DOCKER_MODS=lscr.io/linuxserver/mods:universal-calibre-v8.15.0
+      - HARDCOVER_TOKEN=${HARDCOVER_TOKEN} # https://hardcover.app/account/api
     volumes:
       - ~/dc-data/calibre/config:/config
       - ~/dc-data/calibre/library:/calibre-library
