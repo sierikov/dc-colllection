@@ -1,0 +1,11 @@
+services:
+  crosswatch:
+    container_name: crosswatch
+    image: ghcr.io/cenodude/crosswatch:latest
+    ports:
+      - 3022:8787
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - ~/dc-data/crosswatch/config:/config
+    restart: unless-stopped
